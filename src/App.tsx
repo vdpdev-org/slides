@@ -1,6 +1,9 @@
 import React from 'react'
 import './App.module.css'
 import { Units } from './components/Units/Units'
+import Modal from 'react-modal'
+
+Modal.setAppElement('#root')
 
 export const App = () => {
   return (
