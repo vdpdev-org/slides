@@ -9,7 +9,7 @@ interface IUnitProps {
 
 export const Unit: React.FC<IUnitProps> = ({ iconName, title, description }) => {
   return (
-    <div className={styles.unitWrapper}>
+    <div className={styles.wrapper}>
       <span className="material-icons">{iconName}</span>
       <span>{title}</span>
       <span>{description}</span>

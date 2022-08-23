@@ -3,7 +3,8 @@
   "extends": [
     "plugin:@typescript-eslint/recommended",
     "plugin:import/recommended",
-    "plugin:import/typescript"
+    "plugin:import/typescript",
+    "plugin:react/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": [
@@ -35,6 +36,13 @@
     }
   ],
   "rules": {
+    "react/self-closing-comp": [
+      "error",
+      {
+        "component": true,
+        "html": true
+      }
+    ],
     "semi": [
       "error",
       "never"
