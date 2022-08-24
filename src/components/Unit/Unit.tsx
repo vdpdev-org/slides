@@ -1,28 +1,26 @@
 import React, { useCallback } from 'react'
 import { Icon } from '../Icon/Icon'
-import { Box, IconButton } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 interface IUnitProps {
   id: string
   iconName: string
   title: string
   description: string
-  onIconClick: (id: string) => void
+  onClick?: (id: string) => void
 }
 
-export const Unit: React.FC<IUnitProps> = ({ id, iconName, title, description, onIconClick }) => {
+export const Unit: React.FC<IUnitProps> = ({ id, iconName, title, description, onClick }) => {
   const handleClick = useCallback(() => {
-    onIconClick(id)
-  }, [id, onIconClick])
+    onClick?.(id)
+  }, [id, onClick])
 
   return (
-    <Box display="flex" flexDirection="column">
-      <IconButton onClick={handleClick}>
-        <Icon name={iconName} />
-      </IconButton>
+    <Box p={2} display="flex" flexDirection="column" onClick={handleClick}>
+      <Icon name={iconName} />
 
-      <span>{title}</span>
-      <span>{description}</span>
+      <Typography variant="body1">{title}</Typography>
+      <Typography variant="body2">{description}</Typography>
     </Box>
   )
 }

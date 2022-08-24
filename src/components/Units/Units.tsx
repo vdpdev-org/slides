@@ -1,36 +1,20 @@
 import React, { useCallback } from 'react'
 import styles from './Units.module.css'
 import { Unit } from '../Unit/Unit'
-import { v4 } from 'uuid'
+import { IUnit } from '../../pages/SlideEditor/types'
 
-interface IUnit {
-  id: string
-  iconName: string
-  title: string
-  description: string
+interface IUnitProps {
+  units: IUnit[]
+  onUnitClick: () => void
 }
 
-const initialUnits: IUnit[] = [{ id: v4(), iconName: 'face', title: 'Hi', description: 'description' }]
-
-export const Units: React.FC = () => {
-  const handleItemClick = useCallback((id: string) => {
-    console.log(id)
-  }, [])
+export const Units: React.FC<IUnitProps> = ({ units, onUnitClick }) => {
   const renderItem = useCallback(
     ({ id, iconName, title, description }: IUnit) => {
-      return (
-        <Unit
-          key={id}
-          id={id}
-          iconName={iconName}
-          title={title}
-          description={description}
-          onIconClick={handleItemClick}
-        />
-      )
+      return <Unit key={id} id={id} iconName={iconName} title={title} description={description} onClick={onUnitClick} />
     },
-    [handleItemClick]
+    [onUnitClick]
   )
 
-  return <div className={styles.wrapper}>{initialUnits.map(renderItem)}</div>
+  return <div className={styles.wrapper}>{units.map(renderItem)}</div>
 }
