@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react'
 import styles from './Units.module.css'
-import { Unit } from '../Unit/Unit'
+import { IUnitProps, Unit } from '../Unit/Unit'
 import { IUnit } from '../../pages/SlideEditor/types'
 
-interface IUnitProps {
+export interface IUnitsProps {
   units: IUnit[]
-  onUnitClick: () => void
+  onUnitClick: IUnitProps['onClick']
 }
 
-export const Units: React.FC<IUnitProps> = ({ units, onUnitClick }) => {
+export const Units: React.FC<IUnitsProps> = ({ units, onUnitClick }) => {
   const renderItem = useCallback(
     ({ id, iconName, title, description }: IUnit) => {
       return <Unit key={id} id={id} iconName={iconName} title={title} description={description} onClick={onUnitClick} />

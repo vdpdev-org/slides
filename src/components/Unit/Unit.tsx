@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { Icon } from '../Icon/Icon'
 import { Box, Typography } from '@mui/material'
 
-interface IUnitProps {
+export interface IUnitProps {
   id: string
   iconName: string
   title: string
@@ -16,7 +16,7 @@ export const Unit: React.FC<IUnitProps> = ({ id, iconName, title, description, o
   }, [id, onClick])
 
   return (
-    <Box p={2} display="flex" flexDirection="column" onClick={handleClick}>
+    <Box p={2} display="flex" flexDirection="column" alignItems="center" onClick={handleClick}>
       <Icon name={iconName} />
 
       <Typography variant="body1">{title}</Typography>

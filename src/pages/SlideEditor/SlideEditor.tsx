@@ -1,15 +1,17 @@
 import React from 'react'
 import { IUnit } from './types'
-import { Modal } from '../../components/Modal/Modal'
-import { Units } from '../../components/Units/Units'
-import { UnitEditor } from '../../components/EditUnit/UnitEditor'
+import { IUnitsProps, Units } from '../../components/Units/Units'
+import { IUnitEditorControllerProps, UnitEditorController } from '../../components/UnitEditor/UnitEditorController'
 
-interface ISlideEditorProps {
+export interface ISlideEditorProps {
   units: IUnit[]
   isSlideEditorOpen: boolean
   closeModal: () => void
-  submitEditing: () => void
-  onUnitClick: () => void
+  submitEditing: IUnitEditorControllerProps['onSubmit']
+  onUnitClick: IUnitsProps['onUnitClick']
+  unitTitle: string
+  unitDescription: string
+  unitIconName: string
 }
 
 export const SlideEditor: React.FC<ISlideEditorProps> = ({
@@ -17,21 +19,23 @@ export const SlideEditor: React.FC<ISlideEditorProps> = ({
   isSlideEditorOpen,
   closeModal,
   submitEditing,
-  onUnitClick
+  onUnitClick,
+  unitTitle,
+  unitDescription,
+  unitIconName
 }) => {
   return (
     <div>
       <Units units={units} onUnitClick={onUnitClick} />
-      <Modal
-        title="Edit unit"
-        description="Edit Unit in a live mode and see how it would look like."
+      <UnitEditorController
         isOpen={isSlideEditorOpen}
         onCancel={closeModal}
         onSubmit={submitEditing}
         onCloseRequest={closeModal}
-      >
-        <UnitEditor />
-      </Modal>
+        unitTitle={unitTitle}
+        unitDescription={unitDescription}
+        unitIconName={unitIconName}
+      />
     </div>
   )
 }
