@@ -1,16 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { ISlideEditorProps, SlideEditor } from './SlideEditor'
-import { v4 } from 'uuid'
 import { IUnit } from './types'
-
-const fallbackUnit: IUnit = {
-  id: v4(),
-  iconName: 'face',
-  title: 'Title',
-  description: 'Description'
-}
-
-const defaultUnits: IUnit[] = [fallbackUnit]
+import { defaultUnits, fallbackUnit } from './consts'
 
 export const SlideEditorController = () => {
   const [isSlideEditorOpen, setIsSlideEditorOpen] = useState(false)
@@ -42,7 +33,7 @@ export const SlideEditorController = () => {
       setSelectedUnitIndex(unitIndex)
       openModal()
     },
-    [openModal]
+    [openModal, units]
   )
   const selectedUnit: IUnit = units[selectedUnitIndex] || fallbackUnit
 
