@@ -3,17 +3,19 @@ import { ISlideEditorProps, SlideEditor } from './SlideEditor'
 import { v4 } from 'uuid'
 import { IUnit } from './types'
 
-const units: IUnit[] = [{ id: v4(), iconName: 'face', title: 'Hi', description: 'description' }]
-
-const fallbackUnit: Omit<IUnit, 'id'> = {
-  iconName: 'iconName',
-  title: 'title',
-  description: 'description'
+const fallbackUnit: IUnit = {
+  id: v4(),
+  iconName: 'face',
+  title: 'Title',
+  description: 'Description'
 }
+
+const defaultUnits: IUnit[] = [fallbackUnit]
 
 export const SlideEditorController = () => {
   const [isSlideEditorOpen, setIsSlideEditorOpen] = useState(false)
   const [selectedUnitIndex, setSelectedUnitIndex] = useState(-1)
+  const [units, setUnits] = useState(defaultUnits)
   const openModal = useCallback(() => {
     setIsSlideEditorOpen(true)
   }, [])
@@ -22,10 +24,13 @@ export const SlideEditorController = () => {
   }, [])
   const handleSubmitEditing = useCallback<ISlideEditorProps['submitEditing']>(
     (values) => {
-      console.log(values)
+      const selectedUnit = units[selectedUnitIndex]
+      const newUnits = [...units]
+      newUnits[selectedUnitIndex] = { id: selectedUnit.id, ...values }
+      setUnits(newUnits)
       closeModal()
     },
-    [closeModal]
+    [closeModal, selectedUnitIndex, units]
   )
   const onUnitClick = useCallback<NonNullable<ISlideEditorProps['onUnitClick']>>(
     (unitId) => {
