@@ -1,5 +1,6 @@
 .dropAreaWrapper {
     position: relative;
+    cursor: pointer;
 }
 .dropArea {
     position: absolute;

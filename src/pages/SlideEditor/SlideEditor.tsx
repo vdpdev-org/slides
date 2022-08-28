@@ -2,6 +2,8 @@ import React from 'react'
 import { IUnit } from './types'
 import { IUnitsProps, Units } from '../../components/Units/Units'
 import { IUnitEditorControllerProps, UnitEditorController } from '../../components/UnitEditor/UnitEditorController'
+import { TitleEditor } from '../../components/TitleEditor/TitleEditor'
+import styles from './SlideEditor.module.css'
 
 export interface ISlideEditorProps {
   units: IUnit[]
@@ -27,7 +29,8 @@ export const SlideEditor: React.FC<ISlideEditorProps> = ({
   onDrop
 }) => {
   return (
-    <div>
+    <div className={styles.wrapper}>
+      <TitleEditor />
       <Units units={units} onUnitClick={onUnitClick} onDrop={onDrop} />
       <UnitEditorController
         isOpen={isSlideEditorOpen}

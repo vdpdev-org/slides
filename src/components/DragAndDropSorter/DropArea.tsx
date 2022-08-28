@@ -18,10 +18,7 @@ export const DropArea: React.FC<IDropAreaProps> = ({ id, className, children }) 
     })
   }))
   const isActive = canDrop && isOver
-  let backgroundColor = ''
-  if (isActive) {
-    backgroundColor = 'darkgreen'
-  }
+  const backgroundColor = isActive ? 'rgb(0 0 0 / 50%)' : ''
 
   return (
     <div ref={dropRef} style={{ backgroundColor }} className={className}>

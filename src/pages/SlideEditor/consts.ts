@@ -1,5 +1,4 @@
 import { IUnit } from './types'
-// import { v4 } from 'uuid'
 
 export const fallbackUnit: IUnit = {
   id: 'favorite',
