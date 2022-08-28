@@ -9,8 +9,8 @@ import { buildAfterKey, buildBeforeKey, buildKeyFromAfterKey, getKeyFromBeforeKe
 import { DropResult } from './interfaces'
 
 interface IOnDropItemHandlerParams {
-  source: string
-  target: string
+  fromId: string
+  toId: string
   position: 'before' | 'after'
 }
 
@@ -23,8 +23,8 @@ export interface IDragAndDropSorterProps {
   onDragStart: (itemId: string) => void
   onDragEnd: () => void
   isSomeOneDragging: boolean
-  isDropBeforeDisabled: boolean
-  isDropAfterDisabled: boolean
+  isDropBeforeVisible: boolean
+  isDropAfterVisible: boolean
 }
 
 export const DragAndDropSorter: React.FC<IDragAndDropSorterProps> = ({
@@ -34,10 +34,10 @@ export const DragAndDropSorter: React.FC<IDragAndDropSorterProps> = ({
   onDragStart,
   onDragEnd,
   isSomeOneDragging,
-  isDropBeforeDisabled,
-  isDropAfterDisabled
+  isDropBeforeVisible,
+  isDropAfterVisible
 }) => {
-  const [{ isDragging, item }, dragRef] = useDrag(() => ({
+  const [{ isDragging, item }, dragRef] = useDrag({
     type: ItemTypes.BOX,
     item: { id },
     end: (source, monitor) => {
@@ -46,34 +46,34 @@ export const DragAndDropSorter: React.FC<IDragAndDropSorterProps> = ({
       if (source && target) {
         const shouldBeDroppedBefore = isKeyDropBefore(target.id)
         onDrop({
-          source: source.id,
-          target: shouldBeDroppedBefore ? getKeyFromBeforeKey(target.id) : buildKeyFromAfterKey(target.id),
+          fromId: source.id,
+          toId: shouldBeDroppedBefore ? getKeyFromBeforeKey(target.id) : buildKeyFromAfterKey(target.id),
           position: shouldBeDroppedBefore ? 'before' : 'after'
         })
       }
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
-      item: monitor.getItem()
+      item: monitor.getItem(),
+      handlerId: monitor.getHandlerId()
     })
-  }))
+  })
   useEffect(() => {
     if (isDragging) {
       onDragStart(item.id)
     }
   }, [isDragging, item, onDragStart])
-  const opacity = isDragging ? 0.4 : 1
 
   return (
-    <div ref={dragRef} style={{ opacity }} className={styles.dropAreaWrapper}>
+    <div ref={dragRef} className={styles.dropAreaWrapper}>
       {isSomeOneDragging && !isDragging && (
         <>
-          {!isDropBeforeDisabled && (
+          {!isDropBeforeVisible && (
             <DropArea id={buildBeforeKey(id)} className={clsx(styles.dropArea, styles.dropAreaBefore)}>
               <Icon name="arrow_back" />
             </DropArea>
           )}
-          {!isDropAfterDisabled && (
+          {!isDropAfterVisible && (
             <DropArea id={buildAfterKey(id)} className={clsx(styles.dropArea, styles.dropAreaAfter)}>
               <Icon name="arrow_forward" />
             </DropArea>

@@ -21,11 +21,11 @@ export const Units: React.FC<IUnitsProps> = ({ units, onUnitClick, onDrop }) => 
     setIsSomeOneDragging(false)
   }, [])
   const renderItem = useCallback(
-    ({ id, iconName, title, description }: IUnit, index: number) => {
-      const previousElement = units[index - 1]
-      const nextElement = units[index + 1]
-      const isDropAfterDisabled = nextElement && nextElement.id === draggingId
-      const isDropBeforeDisabled = previousElement && previousElement.id === draggingId
+    ({ id, iconName, title, description }: IUnit, index: number, array: IUnit[]) => {
+      const previousElement = array[index - 1]
+      const nextElement = array[index + 1]
+      const isDropAfterVisible = nextElement && nextElement.id === draggingId
+      const isDropBeforeVisible = previousElement && previousElement.id === draggingId
       return (
         <DragAndDropSorter
           key={id}
@@ -34,14 +34,14 @@ export const Units: React.FC<IUnitsProps> = ({ units, onUnitClick, onDrop }) => 
           onDragStart={onDragStart}
           onDragEnd={onDragEnd}
           isSomeOneDragging={isSomeOneDragging}
-          isDropAfterDisabled={isDropAfterDisabled}
-          isDropBeforeDisabled={isDropBeforeDisabled}
+          isDropAfterVisible={isDropAfterVisible}
+          isDropBeforeVisible={isDropBeforeVisible}
         >
           <Unit id={id} iconName={iconName} title={title} description={description} onClick={onUnitClick} />
         </DragAndDropSorter>
       )
     },
-    [draggingId, isSomeOneDragging, onDragEnd, onDragStart, onDrop, onUnitClick, units]
+    [draggingId, isSomeOneDragging, onDragEnd, onDragStart, onDrop, onUnitClick]
   )
 
   return <div className={styles.wrapper}>{units.map(renderItem)}</div>

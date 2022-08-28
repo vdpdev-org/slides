@@ -3,7 +3,8 @@ import { ISlideEditorProps, SlideEditor } from './SlideEditor'
 import { IUnit } from './types'
 import { defaultUnits, fallbackUnit } from './consts'
 
-export const SlideEditorController = () => {
+// eslint-disable-next-line react/display-name
+export const SlideEditorController = React.forwardRef<HTMLDivElement>(({}, ref) => {
   const [isSlideEditorOpen, setIsSlideEditorOpen] = useState(false)
   const [selectedUnitIndex, setSelectedUnitIndex] = useState(-1)
   const [units, setUnits] = useState(defaultUnits)
@@ -35,22 +36,40 @@ export const SlideEditorController = () => {
     },
     [openModal, units]
   )
-  const onDropBefore = useCallback<ISlideEditorProps['onDrop']>(({ source, target, position }) => {
-    console.log(`Drop ${source} ${position} ${target}`)
-  }, [])
+  const onDrop = useCallback<ISlideEditorProps['onDrop']>(
+    ({ fromId, toId, position }) => {
+      const toIndex = units.findIndex(({ id }) => id === toId)
+      const fromIndex = units.findIndex(({ id }) => id === fromId)
+      if (toIndex === -1 || fromIndex === -1) {
+        return
+      }
+
+      const newUnits = [...units]
+      const movingUnit = newUnits[fromIndex]
+      newUnits.splice(fromIndex, 1)
+      const positionToInsertUnit = toIndex + (position === 'after' ? 1 : 0)
+      newUnits.splice(positionToInsertUnit, 0, movingUnit)
+
+      setUnits(newUnits)
+    },
+    [units]
+  )
+
   const selectedUnit: IUnit = units[selectedUnitIndex] || fallbackUnit
 
   return (
-    <SlideEditor
-      units={units}
-      isSlideEditorOpen={isSlideEditorOpen}
-      closeModal={closeModal}
-      submitEditing={handleSubmitEditing}
-      onUnitClick={onUnitClick}
-      unitIconName={selectedUnit.iconName}
-      unitTitle={selectedUnit.title}
-      unitDescription={selectedUnit.description}
-      onDrop={onDropBefore}
-    />
+    <div ref={ref}>
+      <SlideEditor
+        units={units}
+        isSlideEditorOpen={isSlideEditorOpen}
+        closeModal={closeModal}
+        submitEditing={handleSubmitEditing}
+        onUnitClick={onUnitClick}
+        unitIconName={selectedUnit.iconName}
+        unitTitle={selectedUnit.title}
+        unitDescription={selectedUnit.description}
+        onDrop={onDrop}
+      />
+    </div>
   )
-}
+})
