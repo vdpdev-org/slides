@@ -2,9 +2,14 @@ import React, { useCallback, useState } from 'react'
 import { ISlideEditorProps, SlideEditor } from './SlideEditor'
 import { IUnit } from './types'
 import { defaultUnits, fallbackUnit } from './consts'
+import { SlideEditorLayout } from './SlideEditor.layout'
+
+interface ISlideEditorControllerProps {
+  onPrintClick(): void
+}
 
 // eslint-disable-next-line react/display-name
-export const SlideEditorController = React.forwardRef<HTMLDivElement>(({}, ref) => {
+export const SlideEditorController = React.forwardRef<HTMLDivElement, ISlideEditorControllerProps>(({ onPrintClick }, ref) => {
   const [isSlideEditorOpen, setIsSlideEditorOpen] = useState(false)
   const [selectedUnitIndex, setSelectedUnitIndex] = useState(-1)
   const [units, setUnits] = useState(defaultUnits)
@@ -54,18 +59,20 @@ export const SlideEditorController = React.forwardRef<HTMLDivElement>(({}, ref) 
   const selectedUnit: IUnit = units[selectedUnitIndex] || fallbackUnit
 
   return (
-    <div ref={ref}>
-      <SlideEditor
-        units={units}
-        isSlideEditorOpen={isSlideEditorOpen}
-        closeModal={closeModal}
-        submitEditing={handleSubmitEditing}
-        onUnitClick={onUnitClick}
-        unitIconName={selectedUnit.iconName}
-        unitTitle={selectedUnit.title}
-        unitDescription={selectedUnit.description}
-        onDrop={onDrop}
-      />
-    </div>
+    <SlideEditorLayout onPrintClick={onPrintClick}>
+      <div ref={ref}>
+        <SlideEditor
+          units={units}
+          isSlideEditorOpen={isSlideEditorOpen}
+          closeModal={closeModal}
+          submitEditing={handleSubmitEditing}
+          onUnitClick={onUnitClick}
+          unitIconName={selectedUnit.iconName}
+          unitTitle={selectedUnit.title}
+          unitDescription={selectedUnit.description}
+          onDrop={onDrop}
+        />
+      </div>
+    </SlideEditorLayout>
   )
 })

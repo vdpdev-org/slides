@@ -9,8 +9,7 @@ export const App = () => {
   const handlePrint = useReactToPrint({ content: () => componentRef.current })
   return (
     <DndProvider backend={HTML5Backend}>
-      <SlideEditorController ref={componentRef} />
-      <button onClick={handlePrint}>Print</button>
+      <SlideEditorController ref={componentRef} onPrintClick={handlePrint} />
     </DndProvider>
   )
 }

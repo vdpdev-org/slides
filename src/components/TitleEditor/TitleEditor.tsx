@@ -25,7 +25,7 @@ export const TitleEditor: React.FC = () => {
   }, [])
 
   return (
-    <div>
+    <Box pb={2}>
       {isEditorEnabled ? (
         <Box display="flex" alignItems="center">
           <TextField fullWidth label="Title" variant="outlined" value={editModeTitle} onChange={handleChange} />
@@ -41,6 +41,6 @@ export const TitleEditor: React.FC = () => {
           {title}
         </Typography>
       )}
-    </div>
+    </Box>
   )
 }
