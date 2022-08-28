@@ -38,16 +38,12 @@ export const SlideEditorController = React.forwardRef<HTMLDivElement>(({}, ref) 
   )
   const onDrop = useCallback<ISlideEditorProps['onDrop']>(
     ({ fromId, toId, position }) => {
-      const toIndex = units.findIndex(({ id }) => id === toId)
       const fromIndex = units.findIndex(({ id }) => id === fromId)
-      if (toIndex === -1 || fromIndex === -1) {
-        return
-      }
-
       const newUnits = [...units]
       const movingUnit = newUnits[fromIndex]
       newUnits.splice(fromIndex, 1)
-      const positionToInsertUnit = toIndex + (position === 'after' ? 1 : 0)
+      const toIndex = newUnits.findIndex(({ id }) => id === toId)
+      const positionToInsertUnit = position === 'before' ? toIndex : Math.min(toIndex + 1, units.length)
       newUnits.splice(positionToInsertUnit, 0, movingUnit)
 
       setUnits(newUnits)
