@@ -5,21 +5,21 @@ import { ItemTypes } from '../Unit/consts'
 import { DropArea } from './DropArea'
 import { Icon } from '../Icon/Icon'
 import clsx from 'clsx'
-import { buildAfterKey, buildBeforeKey, buildKeyFromAfterKey, getKeyFromBeforeKey, isKeyDropAfter, isKeyDropBefore } from './utils'
+import { buildAfterKey, buildBeforeKey, buildKeyFromAfterKey, getKeyFromBeforeKey, isKeyDropBefore } from './utils'
 import { DropResult } from './interfaces'
 
 interface IOnDropItemHandlerParams {
   source: string
   target: string
+  position: 'before' | 'after'
 }
 
-export type IOnDropItemHandler = ({ source, target }: IOnDropItemHandlerParams) => void
+export type IOnDropItemHandler = (params: IOnDropItemHandlerParams) => void
 
 export interface IDragAndDropSorterProps {
   id: string
   children: React.ReactNode
-  onDropBefore: IOnDropItemHandler
-  onDropAfter: IOnDropItemHandler
+  onDrop: IOnDropItemHandler
   onDragStart: (itemId: string) => void
   onDragEnd: () => void
   isSomeOneDragging: boolean
@@ -30,8 +30,7 @@ export interface IDragAndDropSorterProps {
 export const DragAndDropSorter: React.FC<IDragAndDropSorterProps> = ({
   id,
   children,
-  onDropBefore,
-  onDropAfter,
+  onDrop,
   onDragStart,
   onDragEnd,
   isSomeOneDragging,
@@ -45,11 +44,12 @@ export const DragAndDropSorter: React.FC<IDragAndDropSorterProps> = ({
       onDragEnd()
       const target = monitor.getDropResult<DropResult>()
       if (source && target) {
-        if (isKeyDropBefore(target.id)) {
-          onDropBefore({ source: source.id, target: getKeyFromBeforeKey(target.id) })
-        } else if (isKeyDropAfter(target.id)) {
-          onDropAfter({ source: source.id, target: buildKeyFromAfterKey(target.id) })
-        }
+        const shouldBeDroppedBefore = isKeyDropBefore(target.id)
+        onDrop({
+          source: source.id,
+          target: shouldBeDroppedBefore ? getKeyFromBeforeKey(target.id) : buildKeyFromAfterKey(target.id),
+          position: shouldBeDroppedBefore ? 'before' : 'after'
+        })
       }
     },
     collect: (monitor) => ({
@@ -80,7 +80,6 @@ export const DragAndDropSorter: React.FC<IDragAndDropSorterProps> = ({
           )}
         </>
       )}
-
       {children}
     </div>
   )

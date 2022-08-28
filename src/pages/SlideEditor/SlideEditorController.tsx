@@ -35,11 +35,8 @@ export const SlideEditorController = () => {
     },
     [openModal, units]
   )
-  const onDropBefore = useCallback<ISlideEditorProps['onDropBefore']>(({ source, target }) => {
-    console.log(`Drop ${source} before ${target}`)
-  }, [])
-  const onDropAfter = useCallback<ISlideEditorProps['onDropAfter']>(({ source, target }) => {
-    console.log(`Drop ${source} after ${target}`)
+  const onDropBefore = useCallback<ISlideEditorProps['onDrop']>(({ source, target, position }) => {
+    console.log(`Drop ${source} ${position} ${target}`)
   }, [])
   const selectedUnit: IUnit = units[selectedUnitIndex] || fallbackUnit
 
@@ -53,8 +50,7 @@ export const SlideEditorController = () => {
       unitIconName={selectedUnit.iconName}
       unitTitle={selectedUnit.title}
       unitDescription={selectedUnit.description}
-      onDropBefore={onDropBefore}
-      onDropAfter={onDropAfter}
+      onDrop={onDropBefore}
     />
   )
 }

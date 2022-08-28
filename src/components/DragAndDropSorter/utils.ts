@@ -8,4 +8,3 @@ export const getKeyFromBeforeKey = (key: string) => key.replace(beforePostfix, '
 export const buildKeyFromAfterKey = (key: string) => key.replace(afterPostfix, '')
 
 export const isKeyDropBefore = (key: string) => key.includes(beforePostfix)
-export const isKeyDropAfter = (key: string) => key.includes(afterPostfix)

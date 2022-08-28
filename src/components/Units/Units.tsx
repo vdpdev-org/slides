@@ -7,11 +7,10 @@ import { DragAndDropSorter, IDragAndDropSorterProps } from '../DragAndDropSorter
 export interface IUnitsProps {
   units: IUnit[]
   onUnitClick: IUnitProps['onClick']
-  onDropBefore: IDragAndDropSorterProps['onDropBefore']
-  onDropAfter: IDragAndDropSorterProps['onDropAfter']
+  onDrop: IDragAndDropSorterProps['onDrop']
 }
 
-export const Units: React.FC<IUnitsProps> = ({ units, onUnitClick, onDropBefore, onDropAfter }) => {
+export const Units: React.FC<IUnitsProps> = ({ units, onUnitClick, onDrop }) => {
   const [isSomeOneDragging, setIsSomeOneDragging] = useState(false)
   const [draggingId, setDraggingId] = useState('')
   const onDragStart = useCallback<IDragAndDropSorterProps['onDragStart']>((id) => {
@@ -31,8 +30,7 @@ export const Units: React.FC<IUnitsProps> = ({ units, onUnitClick, onDropBefore,
         <DragAndDropSorter
           key={id}
           id={id}
-          onDropBefore={onDropBefore}
-          onDropAfter={onDropAfter}
+          onDrop={onDrop}
           onDragStart={onDragStart}
           onDragEnd={onDragEnd}
           isSomeOneDragging={isSomeOneDragging}
@@ -43,7 +41,7 @@ export const Units: React.FC<IUnitsProps> = ({ units, onUnitClick, onDropBefore,
         </DragAndDropSorter>
       )
     },
-    [draggingId, isSomeOneDragging, onDragEnd, onDragStart, onDropAfter, onDropBefore, onUnitClick, units]
+    [draggingId, isSomeOneDragging, onDragEnd, onDragStart, onDrop, onUnitClick, units]
   )
 
   return <div className={styles.wrapper}>{units.map(renderItem)}</div>
