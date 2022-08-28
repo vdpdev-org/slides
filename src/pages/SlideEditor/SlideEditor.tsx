@@ -12,6 +12,8 @@ export interface ISlideEditorProps {
   unitTitle: string
   unitDescription: string
   unitIconName: string
+  onDropBefore: IUnitsProps['onDropBefore']
+  onDropAfter: IUnitsProps['onDropAfter']
 }
 
 export const SlideEditor: React.FC<ISlideEditorProps> = ({
@@ -22,11 +24,13 @@ export const SlideEditor: React.FC<ISlideEditorProps> = ({
   onUnitClick,
   unitTitle,
   unitDescription,
-  unitIconName
+  unitIconName,
+  onDropBefore,
+  onDropAfter
 }) => {
   return (
     <div>
-      <Units units={units} onUnitClick={onUnitClick} />
+      <Units units={units} onUnitClick={onUnitClick} onDropBefore={onDropBefore} onDropAfter={onDropAfter} />
       <UnitEditorController
         isOpen={isSlideEditorOpen}
         onCancel={closeModal}

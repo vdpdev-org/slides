@@ -1,0 +1,18 @@
+.dropAreaWrapper {
+    position: relative;
+}
+.dropArea {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dropAreaBefore {
+    left: 0;
+}
+.dropAreaAfter {
+    right: 0;
+}
